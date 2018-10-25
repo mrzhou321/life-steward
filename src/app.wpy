@@ -1,0 +1,101 @@
+<style lang="less">
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+
+import { setStore } from 'wepy-redux'
+import configStore from './store'
+
+const store = configStore()
+setStore(store)
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/index',
+      'pages/tabbar',
+      'pages/home/index',
+      'pages/login/index',
+      'pages/order/index',
+      'pages/personal/index',
+      'pages/customer/index',
+      'pages/category/index'
+    ],
+    tabBar: {
+      list: [{
+        pagePath: 'pages/home/index',
+        text: '首页'
+      },
+      {
+        pagePath: 'pages/order/index',
+        text: '订单'
+      },
+      {
+        pagePath: 'pages/category/index',
+        text: '分类'
+      },
+      {
+        pagePath: 'pages/customer/index',
+        text: '客服'
+      },
+      {
+        pagePath: 'pages/order/index',
+        text: '个人中心'
+      }
+      ]
+    },
+    window: {
+      navigationBarTitleText: '生活管家'
+    }
+  }
+
+  globalData = {
+    userInfo: null
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix')
+  }
+
+  onLaunch() {
+    this.testAsync()
+  }
+
+  sleep (s) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('promise resolved')
+      }, s * 1000)
+    })
+  }
+
+  async testAsync () {
+    const data = await this.sleep(3)
+    console.log(data)
+  }
+
+  getUserInfo(cb) {
+    const that = this
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo
+    }
+    wepy.getUserInfo({
+      success (res) {
+        that.globalData.userInfo = res.userInfo
+        cb && cb(res.userInfo)
+      }
+    })
+  }
+}
+</script>

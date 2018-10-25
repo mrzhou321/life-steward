@@ -1,0 +1,51 @@
+<style lang="less">
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-view {
+    width: 100%;
+    height: 100vh;
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .skip-btn {
+    position: fixed;
+    bottom: 50px;
+    width: 100px;
+    left: 0;
+    right: 0;
+  }
+</style>
+<template>
+  <view class="container">
+    <view class='swiper-view'>
+      <swiper class='swiper-view' indicator-dots="{{indicatorDots}}"
+              autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{imgUrls}}" wx:key="*this">
+          <swiper-item>
+            <image src="{{item}}" class="slide-image" />
+          </swiper-item>
+        </block>
+      </swiper>
+      <button type="default" class='skip-btn' @tap='skipSwiper'> 跳过</button>
+    </view>
+
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+    };
+    components = {};
+    data = {};
+  }
+</script>
